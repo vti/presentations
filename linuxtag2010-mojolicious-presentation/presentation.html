@@ -1,0 +1,523 @@
+<!doctype html><html>
+  <head>
+    <title>Presentation</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.class.animation.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="shjs/sh_style.css" />
+    <script type="text/javascript" src="shjs/sh_main.js"></script>
+    <script type="text/javascript" src="shjs/sh_perl.js"></script>
+
+    <script type="text/javascript" src="presentation.js"></script>
+  </head>
+  <body>
+    <div id="presentation">
+      <div id="slides">
+
+        <div class="slide">
+          <div class="section">
+              <div class="middle">
+                <h1 class="huge">Web 3.5 & Perl</h1>
+              </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Features that a modern <br />web framework must have</h1>
+          <div class="section">
+            <ul>
+              <li>Object Oriented API</li>
+              <li>HTTP 1.1 and WebSocket <em class="attention">client/server</em> implementation</li>
+              <li><em class="attention">RESTful</em> features</li>
+              <li>Internationalization</li>
+              <li>Multiplatform and multiserver <em class="attention">easy</em> deployment</li>
+              <li>Builtin <em class="attention">asynchronous IO</em></li>
+              <li>Advanced testing capabilities</li>
+              <li>Features like routes, plugins, templates, sessions etc</li>
+              <li><em class="attention">Playable</em> out of the box but <em class="attention">configurable</em> for advanced projects</li>
+              <li>3rd party extensions</li>
+              <li>Examples</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="section">
+              <div class="middle">
+                <h1 class="huge">Is there a <em class="attention">modern</em> Perl web framework?</h1>
+              </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="section">
+              <div class="middle">
+                <h1 class="huge">YES<br /><em class="attention">Mojolicious</em></h1>
+              </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Object Oriented API</h1>
+
+          <div class="section">
+            MVC paradigm
+            <pre class="sh_perl">
+# Controller
+package MyApp::Example;
+use base 'Mojolicious::Controller';
+
+# Model
+use MyModel;
+
+sub welcome {
+    my $self = shift;
+
+    my $model = MyModel->new;
+
+    my $stuff = $model->get_stuff_by_id($self->param('id'));
+
+    # View
+    $self->render_json($stuff->to_hash);
+}</pre>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>HTTP 1.1 and WebSocket client/server implementation</h1>
+          <h2>We are ready for the future</h2>
+
+          <div class="section">
+            <ul>
+              <li>IPv6</li>
+              <li>TLS 1.2 (SSL accessor)</li>
+              <li>IDNA (Internationalized domain name)</li>
+              <li>
+                WebSockets (bi-directional, full-duplex communications channels over a single TCP socket)
+                <pre class="sh_perl">
+$self->receive_message(sub {
+    my ($self, $message) = @_;
+
+    $self->send_message($message);
+});</pre>
+              </li>
+              <li>Pipelining, chunking and multipart (not new, but advanced)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>RESTful features</h1>
+          <h2>Writing web services friendly apps is easy</h2>
+
+          <div class="section">
+            <ul>
+              <li>
+                RESTful routes (map request methods to different controllers)
+<pre class="sh_perl">
+    $routes->route('/')->via('GET')->over(agent => qr/Firefox/)->to('example#welcome');
+</pre>
+              </li>
+              <li>
+                Builtin JSON encoder/decoder
+<pre class="sh_perl">
+    my $json_string = Mojo::JSON->new->encode({foo => {bar => 'baz'}});
+</pre>
+              </li>
+              <li>
+                Rendering data in multiple types based on url (html, txt, pod, json)
+<pre class="sh_perl">
+    page.html.ep -> NAME.FORMAT.TEMPLATE
+</pre>
+              </li>
+              <li>Sessions done via signed cookies</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Internationalization</h1>
+          <h2>Internet is a multilingual and multicultural
+            environment</h2>
+
+          <div class="section">
+            <ul>
+              <li>
+                Builtin I18N support for strings translation
+<pre class="sh_perl">
+package MyTestApp::I18N::de;
+use base 'MyTestApp::I18N';
+our %Lexicon = (hello => 'hallo');
+...
+$self->plugin('i18n');
+...
+&lt;%=l 'hello' %&gt; # hallo
+</pre>
+              </li>
+              <li>
+                First class Unicode support
+                <ul>
+                 <li>UTF-8</li>
+                 <li>UTF-32LE</li>
+                 <li>UTF-32BE</li>
+                 <li>UTF-16BE</li>
+                 <li>UTF-16LE</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Multiplatform and multiserver deployment</h1>
+          <h2>Get out of the deployment hell</h2>
+
+          <div class="section">
+            <ul>
+              <li><em class="attention">No dependencies</em> except Perl 5.8.1 that is
+              already there</li>
+              <li>CGI, FastCGI, PSGI</li>
+              <li>Apache, nginx, lighttpd, IIS and more</li>
+              <li>Hot deployment and UNIX domain socket sharing</li>
+              <li>Development standalone and prefork servers</li>
+            </ul>
+<pre>
+./my_app daemon --listen 'http://*:1234'
+./my_app daemon_prefork
+./my_app cgi
+./my_app fastcgi
+./my_app psgi
+</pre>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Builtin asynchronous IO and prefork web server</h1>
+          <h2>Event-driven programming is here</h2>
+
+          <div class="section">
+            <ul>
+              <li>Builtin IO event loop for asynchronous tcp connections</li>
+              <li>Multiple event loops including epoll and kqueue</li>
+              <li>Asynchrounous client with parallel downloads and streaming support</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Echo server example</h1>
+          <div class="section">
+            <pre class="two-column sh_perl">
+my $buffer = '';
+
+my $loop = Mojo::IOLoop->singleton;
+
+my $server = $loop->connect(
+  address => $host,
+  port  => $port,
+  cb    => sub {
+    warn "Connected to $host:$port";
+
+    $loop->writing($_[1])
+      if length $buffer;
+  }
+);
+
+
+$loop->read_cb(
+  $server => sub {
+    $buffer = $_[2];
+    $loop->writing($server);
+  }
+);
+
+$loop->write_cb(
+  $server => sub {
+    $loop->not_writing($server);
+    return $buffer;
+  }
+);
+
+$loop->start;
+            </pre>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Parallel downloads</h1>
+          <div class="section">
+
+            <pre class="sh_perl">
+  my $client = Mojo::Client->new;
+
+  $client->get('http://examples.com/1');
+  $client->get('http://examples.com/2');
+  $client->get('http://examples.com/3');
+  $client->get('http://examples.com/4');
+
+  $client->process;
+            </pre>
+
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Asynchrounous subrequest</h1>
+          <div class="section">
+
+<pre class="sh_perl">
+sub welcome {
+    my $self = shift;
+
+    # Pause
+    $self->pause;
+
+    $self->client->async->get('http://example.com' => sub {
+        my $self = shift;
+
+        # Resume
+        $self->finish;
+    })->process;
+}
+</pre>
+
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>mp3 streaming client example</h1>
+
+          <div class="section">
+            <pre class="sh_perl">
+  open(HANDLER, "|mpg123 -") or die "Cannot pipe input: $!\n";
+
+  my $tx = Mojo::Transaction::HTTP->new;
+  $tx->req->method('GET');
+  $tx->req->url->parse($url);
+  $tx->res->body(
+    sub {
+      my ($res, $chunk) = @_;
+      print HANDLER $chunk;
+    }
+  );
+
+  Mojo::Client->new->process($tx);
+
+  close HANDLER;
+            </pre>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Advanced testing capabilities</h1>
+          <h2>It's not a feature without a test</h2>
+
+          <div class="section">
+            <ul>
+              <li>Heavy testing of existing code
+<pre>
+Files=41, Tests=2272 # May 2010
+</pre>
+              </li>
+              <li>
+                Infrastructure for testing website's links and forms
+<pre>
+use Test::Mojo;
+my $t = Test::Mojo->new(app => 'MyApp');
+
+$t->get_ok('/welcome')->status_is(200)
+  ->content_like(qr/Hello!/, 'welcome message!');
+
+$t->post_form_ok('/search', {title => 'Perl', author => 'taro'})->status_is(200)
+  ->content_like(qr/Perl.+taro/);
+</pre>
+              </li>
+              <li>Testing live against the real tcp server</li>
+              <li>Development servers with a static file serving ability</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Most needable web framework features</h1>
+          <h2>It is already there</h2>
+
+          <div class="section">
+            <ul>
+              <li>
+                Routes
+<pre class="sh_perl">
+    $routes->route('/')->via('GET')->over(agent => qr/Firefox/)->to('example#welcome');
+</pre>
+              </li>
+              <li>
+                Plugins
+<pre class="sh_perl">
+    $self->plugin('i18n');
+</pre>
+              </li>
+              <li>
+                Sessions
+<pre class="sh_perl">
+    $self->session(user => 'vti');
+</pre>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Embedded templates</h1>
+
+          <div class="section">
+<pre>
+%# Layouts
+% layout 'wrapper';
+
+%# Expressions
+&lt;% $foo++ %&gt;
+&lt;%= $foo %&gt;
+
+%# Blocks
+% for (1 .. 10) {
+    * Hello 10 times
+% }
+
+%# Automatic xml escaping
+&lt;%= '1 &gt; 2' %&gt;
+</pre>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Simple one-file applications or complex project file
+            tree generation</h1>
+          <h2>You can have fun whilst still be able to right business
+            apps</h2>
+
+          <div class="section">
+<pre class="two-column">
+# Lite app
+
+#!/usr/bin/env perl
+use 'Mojolicious::Lite';
+
+get '/' => sub {
+    my $self = shift;
+
+    $self->stash(foo => 'bar');
+} => 'welcome';
+__DATA__
+@@ welcome.html.ep
+&lt;% $foo %&gt;
+
+
+# Full app
+
+[mkdir] /private/tmp/my_app/script
+[write] /private/tmp/my_app/script/my_app
+[chmod] my_app/script/my_app 744
+[mkdir] /private/tmp/my_app/lib
+[write] /private/tmp/my_app/lib/MyApp.pm
+  ...
+[write] /private/tmp/my_app/templates/not_found.html.ep
+[exist] /private/tmp/my_app/templates
+[write] /private/tmp/my_app/templates/exception.html.ep
+[mkdir] /private/tmp/my_app/templates/layouts
+[write] /private/tmp/my_app/templates/layouts/default.html.ep
+[mkdir] /private/tmp/my_app/templates/example
+[write] /private/tmp/my_app/templates/example/welcome.html.ep
+</pre>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>CPAN Modules</h1>
+          <h2>Mojolicious extensions</h2>
+
+          <div class="section">
+            <ul>
+              <li>MojoX::Renderer::*<br />
+              TT YAML XSLT Mason HTP CTPP2</li>
+               <li>MojoX::Log::Log4Perl</li>
+               <li>MojoX::Auth::Simple</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <h1>Lots of examples</h1>
+          <h2>It's always better to see some code</h2>
+
+          <div class="section">
+            <ul>
+              <li>Comet / WebSockets
+              <ul>
+                <li>Comet desktop http://github.com/xantus/comet-desktop</li>
+                <li>IRC Client http://github.com/xantus/mojo-websocket-examples</li>
+                <li>Colaborative drawing http://github.com/vti/showmethedrawing</li>
+                <li>Bomberman http://github.com/vti/mojomber</li>
+              </ul>
+              </li>
+
+              <li>
+                Web publishing
+                <ul>
+                  <li>Bootylicious blog http://github.com/vti/bootylicious</li>
+                  <li>Simple URL shortener http://github.com/memowe/urlicious</li>
+                  <li>Simple CMS http://github.com/memowe/contenticious</li>
+                  <li>
+                    Paste service
+                    <ul>
+                      <li>http://github.com/xantus/mojo-paste</li>
+                      <li>http://github.com/vti/pastelicious</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            <ul>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="section">
+
+            <div class="middle center">
+              <h1>Thank You</h1>
+
+              <br />
+              Viacheslav Tykhanovskyi<br />
+
+              http://github.com/vti
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      $(document).ready(function() {
+        var presentation = new Presentation();
+
+        $(document).keydown(function(e) {
+          var code = (e.keyCode ? e.keyCode : e.which);
+
+          // Right Arrow or Space
+          if (code == '39' || code == '32') {
+            presentation.nextSlide();
+          }
+
+          // Left Arrow
+          else if (code == '37') {
+            presentation.prevSlide();
+          }
+        });
+
+        sh_highlightDocument();
+      });
+    </script>
+  </body>
+</html>
