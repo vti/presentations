@@ -77,7 +77,7 @@ http://github.com/vti/showmethedrawing
 
 Искусство или чо?
 
-![ArtOrWhat](/mojolicious-and-web-3.5/artorwhat.png)
+![ArtOrWhat](mojolicious-and-web-3.5/artorwhat.png)
 
 @
 
