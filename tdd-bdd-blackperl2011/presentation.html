@@ -1,0 +1,267 @@
+<!doctype html><html>
+    <head>
+        <meta charset="utf-8">
+        <title>Presentation</title>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+
+        <script type="text/javascript" src="jquery.min.js"></script>
+
+        <link href="prettify.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="prettify.js"></script>
+
+        <script type="text/javascript" src="presentation.js"></script>
+    </head>
+    <body onload="prettyPrint()">
+        <div id="presentation">
+            <div id="slides">
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">TDD/BDD</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">Test Driven development</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">Test::More?</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Последовательность разработки</h1>
+                    <div class="section">
+                        <div class="big">
+                            <ol>
+                                <li>Написание теста </li>
+                                <li><span class="attention">Тест не
+                                    проходит</span></li>
+                                <li>Написание функционала</li>
+                                <li><span class="ok">Тест проходит</span></li>
+                                <li>Рефакторинг</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Позитивные стороны</h1>
+                    <div class="section">
+                        <div class="big">
+                            <ol>
+                                <li>Интерфейс "сам собой" продумывается</li>
+                                <li>Не реализуются ненужные требования</li>
+                                <li>Разработка системы маленькими шажками</li>
+                                <li>Вынуждает писать код модульным</li>
+                                <li>На ранних этапах выявляются ошибки проектирования</li>
+                                <li>Модуль работает</li>
+                                <li>Безопасный рефакторинг</li>
+                                <li>Mocks</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Недостатки</h1>
+                    <div class="section">
+                        <div class="big">
+                            <ol>
+                                <li>Высокий процент прохождения тестов может создать псевдо уверенность в коде</li>
+                                <li>Тесты нужно рефакторить также как и код</li>
+                                <li>Тесты могут быть хрупкими</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Но недостатки ли это?</h1>
+                    <div class="section">
+                        <h1 class="huge">
+                            Нет
+                        </h1>
+                        <center><div>Надо следовать хорошим практикам</div></center>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>BDD</h1>
+                    <div class="section">
+                        <h1 class="huge">
+                            Behaviour Driven development<br />
+                            Хорошие практики TDD
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>BDD</h1>
+                    <div class="section">
+                        <ul>
+                            <li>RSpec</li>
+                            <li>Cucumber</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Последовательность разработки</h1>
+                    <div class="section">
+                        <div class="big">
+                            <ol>
+                                <li>Написание <strong>функционального</strong> теста</li>
+                                <li><span class="attention"><strong>Функциональный</strong> тест не проходит</span></li>
+                                <ol>
+                                    <li>Написание юнит теста</li>
+                                    <li><span class="attention">Тест не проходит</span></li>
+                                    <li>Написание функционала</li>
+                                    <li><span class="ok">Тест проходит</span></li>
+                                    <li>Рефакторинг</li>
+                                </ol>
+                                <li><span class="ok"><strong>Функциональный</strong> тест проходит</span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Хорошие практики</h1>
+                    <div class="section">
+                        <div class="big">
+                            Подтесты, подпрограммы, методы.<br /><br />
+                            Все, что относится к хорошим практикам
+                            программирования.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Хорошие практики</h1>
+                    <div class="section">
+                        <div class="big">
+                            Should вместо test<br /><br />
+                            Проблема первого теста
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Хорошие практики</h1>
+                    <div class="section">
+                        <div class="big">
+                            Один тест -- один assert.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Хорошие практики</h1>
+                    <div class="section">
+                        <div class="big">
+                            AAA
+                            <ul>
+                                <li>Arrange</li>
+                                <li>Act</li>
+                                <li>Assert</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Пример</h1>
+                    <div class="section">
+                        <pre>
+sub should_add_numbers {
+    my $self = shift;
+
+    # Arrange
+    my $firstNumber  = 2;
+    my $secondNumber = 3;
+    my $calculator   = Calculator->new();
+
+    # Act
+    my $result = $calculator->calculate($firstNumber, $secondNumber);
+
+    # Assert
+    is($result, 5);
+}
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Модули для тестирования</h1>
+                    <div class="section">
+                        <strong>Rspec</strong>
+
+                        <ul>
+                            <li>https://metacpan.org/release/Test-More-Behaviour</li>
+                            <li>https://metacpan.org/release/Test-Spec</li>
+                            <li>https://metacpan.org/release/Test-Expectation</li>
+                            <li>https://metacpan.org/release/Test-Behaviour-Spec</li>
+                        </ul>
+
+                        <strong>Cucumber</strong>
+
+                        <ul>
+                            <li>https://metacpan.org/module/courgette.pl</li>
+                            <li>https://metacpan.org/release/Test-BDD-Cucumber</li>
+                            <li>https://metacpan.org/release/Test-Pcuke</li>
+                        </ul>
+
+                        <strong>xUnit</strong>
+
+                        <ul>
+                            <li>https://metacpan.org/module/Test::Class</li>
+                            <li>https://metacpan.org/module/Test::Unit</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">ok(1);</h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                var presentation = new Presentation();
+
+                $(document).keydown(function(e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+
+                    // Right Arrow or Space
+                    if (code == '39' || code == '32') {
+                        presentation.nextSlide();
+                    }
+
+                    // Left Arrow
+                    else if (code == '37') {
+                        presentation.prevSlide();
+                    }
+                });
+
+                $('pre').addClass('prettyprint lang-perl');
+            });
+        </script>
+    </body>
+</html>

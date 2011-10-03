@@ -1,0 +1,447 @@
+<!doctype html><html>
+    <head>
+        <meta charset="utf-8">
+        <title>Presentation</title>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.class.animation.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="shjs/sh_style.css" />
+        <script type="text/javascript" src="shjs/sh_main.js"></script>
+        <script type="text/javascript" src="shjs/sh_perl.js"></script>
+
+        <script type="text/javascript" src="presentation.js"></script>
+    </head>
+    <body>
+        <div id="presentation">
+            <div id="slides">
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">PSGI/Plack</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">PSGI</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <center><img src="psgi.png" /></center>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>PSGI приложение</h1>
+                    <div class="section">
+                        <pre>
+ sub app {
+     my $env = shift;
+     return [
+         '200',
+         [ 'Content-Type' => 'text/plain' ],
+         [ "Hello World" ], # or IO::Handle-like object
+     ];
+ }
+                  </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>$env</h1>
+                    <div class="section">
+                        <pre>
+REQUEST_METHOD
+SCRIPT_NAME
+PATH_INFO
+REQUEST_URI
+QUERY_STRING
+SERVER_NAME SERVER_PORT
+SERVER_PROTOCOL
+HTTP_
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>А также</h1>
+                    <div class="section">
+                        <pre>
+psgi.version
+psgi.url_scheme
+psgi.input
+psgi.errors
+psgi.multithread
+psgi.multiprocess
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Опционально</h1>
+                    <div class="section">
+                        <pre>
+psgi.run_once
+psgi.nonblocking
+psgi.streaming
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Поток ввода</h1>
+                    <div class="section">
+                        <ul>
+                            <li>IO::Handle-подобный объект</li>
+                            <li>обязательный метод read</li>
+                            <li>необязательный метод seek (кроме psgix.input.buffered)</li>
+                        </ul>
+                        <em class="attention">(не использовать read как фукнцию или &lt;&gt;)</em>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Поток ошибок</h1>
+                    <div class="section">
+                        <ul>
+                            <li>IO::Handle-подобный объект</li>
+                            <li>обязательный метод print</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Ответ</h1>
+                    <div class="section">
+                        <pre>
+[ $status, $headers, $body ]
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Статус</h1>
+                    <div class="section">
+200, 403, 404, 500...
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Заголовки</h1>
+                    <div class="section">
+                        <ul>
+                            <li>ссылка на массив</li>
+                            <li>обязательно присутствие Content-Type кроме статусов 1xx, 204, 304
+                            (однако обычно добавляется автоматически)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Тело ответа</h1>
+                    <div class="section">
+                        <ul>
+                            <li>ссылка на массив</li>
+                            <li>IO::Handle-подобный объект
+                            <ul>
+                                <li>должен реализовывать getline и close</li>
+                                <li>может возвращать дескриптор файла на операцию fileno</li>
+                                <li>может реализовывать path</li>
+                            </ul>
+                            </li>
+                            <li>байты!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Отложенный ответ или streaming</h1>
+                    <div class="section">
+                        <ul>
+                            <li>psgi.streaming</li>
+                            <li>возвращается ссылка на подпрограмму</li>
+                            <li>когда данные готовы к отправке вызывается подпрограмма, переданная в качестве первого параметра</li>
+                            <li>если вызов происходит не с тремя параметрами, должен быть возвращен объекта, который реализуется методы write и close</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Отложенный ответ</h1>
+                    <div class="section">
+<pre>
+my $app = sub {
+    my $env = shift;
+
+    # Delays response until it fetches content from the network
+    return sub {
+        my $respond = shift;
+        fetch_content_from_server(sub {
+            my $content = shift;
+            # ...
+            $respond->([ 200, $headers, [ $content ] ]);
+        });
+    };
+};
+</pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Streaming</h1>
+                    <div class="section">
+<pre>
+my $app = sub {
+    my $env = shift;
+    return sub {
+        my $respond = shift;
+        my $writer = $respond->([ 200, [ 'Content-Type', 'application/json' ]]);
+        wait_for_events(sub {
+            my $new_event = shift;
+            if ($new_event) {
+                $writer->write($new_event->as_json . "\n");
+                # Or:
+                # $writer->poll_cb(sub {
+                #    $_[0]->write($new_event->as_json . "\n") });
+            } else { $writer->close }
+        });
+    };
+};
+</pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Middleware</h1>
+                    <div class="section">
+                        <img src="onion.png" />
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Расширения</h1>
+                    <h2>Перед использованием стоит проверить их поддержку</h2>
+                    <div class="section">
+                        <ul>
+                            <li>psgix.io</li>
+                            <li>psgix.input.buffered</li>
+                            <li>psgix.logger</li>
+                            <li>psgix.session</li>
+                            <li>psgix.session.options</li>
+                            <li>psgix.harakiri</li>
+                            <li>psgix.harakiri.commit</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">Plack</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Handler и Plack::Loader</h1>
+                    <div class="section">
+                        standalone, CGI, FCGI, Apache1, Apache2
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Util</h1>
+                    <div class="section">
+                        <ul>
+                            <li>загрузка классов</li>
+                            <li>проверка является ли handle настоящим файлом с дескриптором</li>
+                            <li>вычисление Content-Length</li>
+                            <li>загрузка и запуск PSGI приложения</li>
+                            <li>утилиты для работы с заголовками</li>
+                            <li>и прочее полезное для разработчиков адаптеров для серверов</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Util::Accessor</h1>
+                    <div class="section">
+                        <pre>
+use Plack::Util::Accessor qw(script execute);
+
+$instance->script();
+$instance->execute('foo');
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>.psgi файлы / Plack::Builder</h1>
+                    <div class="section">
+                        <pre>
+use Plack::Builder;
+
+my $app = sub { ... };
+
+builder {
+    enable "Plack::Middleware::Foo";
+    enable "Plack::Middleware::Bar", opt => "val";
+    enable "Plack::Middleware::Baz";
+    $app;
+};
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>plackup / Plack::Runner</h1>
+                    <div class="section">
+                        <pre>
+$ plackup
+$ plackup my_app.psgi
+$ plackup -s Twiggy my_app.psgi
+$ plackup -s Twiggy --listen 127.0.0.1:5555 my_app.psgi
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Middleware</h1>
+                    <div class="section">
+                        <ul>
+                            <li>AccessLog</li>
+                            <li>Auth::Basic</li>
+                            <li>BufferedStreaming</li>
+                            <li>Chunked</li>
+                            <li>ConditionalGET</li>
+                            <li>Conditional</li>
+                            <li>ContentLength</li>
+                            <li>...</li>
+                            <li>StackTrace</li>
+                            <li>Static</li>
+                            <li>Writer</li>
+                            <li>XFramework</li>
+                            <li>XSendfile</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::App</h1>
+                    <div class="section">
+                        <ul>
+                            <li>Cascade</li>
+                            <li>CGIBin</li>
+                            <li>Directory</li>
+                            <li>File</li>
+                            <li>PSGIBin</li>
+                            <li>URLMap</li>
+                            <li>WrapCGI</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Request / Plack::Response</h1>
+                    <div class="section">
+                        <pre>
+my $req = Plack::Request->new($env);
+
+my $path_info = $req->path_info;
+my $query     = $req->param('query');
+
+my $res = $req->new_response(200); # new Plack::Response
+$res->finalize;
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Test</h1>
+                    <div class="section">
+                        <pre>
+test_psgi
+    app => sub {
+        my $env = shift;
+        return [ 200, [ 'Content-Type' => 'text/plain' ], [ "Hello World" ] ],
+    },
+    client => sub {
+        my $cb = shift;
+        my $req = HTTP::Request->new(GET => "http://localhost/hello");
+        my $res = $cb->($req);
+        like $res->content, qr/Hello World/;
+    };
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Plack::Test::Suite</h1>
+                    <div class="section">
+                        <pre>
+Plack::Test::Suite->run_server_tests('Your::Handler');
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>CPAN</h1>
+                    <div class="section">
+                        <center><img src="cpan.png" /></center>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h1>Victory!</h1>
+                    <div class="section">
+                        <center><img src="victory.jpg" /></center>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="section">
+                        <div class="middle">
+                            <h1 class="huge">Вопросы и Ответы</h1>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                var presentation = new Presentation();
+
+                $(document).keydown(function(e) {
+                    var code = (e.keyCode ? e.keyCode : e.which);
+
+                    // Right Arrow or Space
+                    if (code == '39' || code == '32') {
+                        presentation.nextSlide();
+                    }
+
+                    // Left Arrow
+                    else if (code == '37') {
+                        presentation.prevSlide();
+                    }
+                });
+
+                $('pre').addClass('sh_perl');
+
+                sh_highlightDocument();
+            });
+        </script>
+    </body>
+</html>
