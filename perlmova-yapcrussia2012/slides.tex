@@ -1,0 +1,223 @@
+\documentclass[14pt]{beamer}
+\begin{document}
+\title{Security issues in Perl web apps}
+\author{Viacheslav Tykhanovskyi}
+\date{\today}
+\setbeamercolor{background canvas}{bg=black,fg=white} 
+%\setbeamercolor{normal text}{bg=blue} 
+\setbeamercolor{frametitle}{fg=white}
+%\setbeamercolor{text}{fg=white}
+%\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{whitetext}{fg=white}
+\usebeamercolor[fg]{whitetext}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=5cm]{china-segway-olympics-security}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Common web security issues
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    Validate input data!
+\end{frame}
+
+\begin{frame}[fragile]{SQL injections}
+    \begin{verbatim}
+    use DBI;
+    use DBIx::Class;
+    use Rose::DB::Object;
+    use ObjectDB;
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{XSS}
+    Blind escaping \texttt{<}, \texttt{>}, \texttt{'}, \texttt{"} and \texttt{\&}
+    is not enough! \pause
+    \begin{itemize}
+        \item Various HTML attributes (href, refresh meta tag, ...)\pause
+        \item Not validated JSON response\pause
+        \item Using template variables in JavaScript code\pause
+    \end{itemize}
+    Escape taking context into account.
+\end{frame}
+
+\begin{frame}{Cookies}
+    \begin{itemize}
+        \item Sign cookies\pause
+        \item XSS preventing is hard. Set \texttt{HttpOnly} cookie flag for better protection.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{CSRF}
+    \begin{verbatim}
+    Plack::Middleware::CSRF
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Path traversal}
+    \begin{verbatim}
+    ../../../../../../etc/passwd
+    \end{verbatim}\pause
+    \begin{itemize}
+        \item Detect \texttt{..}\pause
+        \item \verb#File::Spec->no_upwards(@paths);#
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Perl-specific security issues
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item No buffer overflow \pause
+        \item Most system commands are embedded \pause
+        \item Written by smart people
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=5cm]{hole}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+    use strict;
+    use warnings;
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Tainting}
+    \begin{verbatim}
+    -T
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+sub is_tainted {
+    return !eval {
+        eval("#"
+            . substr(join("", @_), 0, 0)
+        );
+        1
+    };
+}
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{system()}
+    \begin{verbatim}
+    system("program $arg");
+    \end{verbatim}
+    vs
+    \begin{verbatim}
+    system('program', $arg);
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{open()}
+    \begin{verbatim}
+    open my $fh, ">$file";
+    \end{verbatim}
+    vs
+    \begin{verbatim}
+    open my $fh, '>', $file;
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{eval()}
+    \begin{verbatim}
+    eval "require $class";
+    \end{verbatim}\pause
+    \begin{verbatim}
+    load_class("Foo;print 'nice feature!'")
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{0}
+    \begin{verbatim}
+    \0
+    \end{verbatim}\pause
+    \begin{verbatim}
+    $file = "/bin/ls\0 /etc|";
+    if (-e $file) {
+        open my $fh, $file;
+    }
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{CGI \& ARGV}
+    \begin{verbatim}
+    script.pl?foo
+    \end{verbatim}\pause
+    \begin{verbatim}
+    ...
+    $app->run(@ARGV);
+    ...
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Regular expressions}
+    \begin{verbatim}
+if ($string =~ m/$user_supplied_re/) {
+    ...
+}
+    \end{verbatim}
+    vs
+    \begin{verbatim}
+if ($string =~ m/\Q$user_supplied_re\E/) {
+    ...
+}
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Unicode}
+    \begin{verbatim}
+    utf8
+    \end{verbatim}
+    vs
+    \begin{verbatim}
+    UTF-8
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{rand()}
+    "rand()" is not cryptographically secure
+\end{frame}
+
+\begin{frame}
+    How to make life easier?\pause
+    \begin{itemize}
+    \item Use modules from CPAN. Many of them are time-proved\pause
+    \item Google "OWASP"\pause
+    \item Follow Best Practices\pause
+    \item Use scanners
+    \begin{itemize}
+        \item nikto http://cirt.net/nikto2
+        \item skipfish http://code.google.com/p/skipfish/
+        \item w3af http://w3af.sourceforge.net/
+    \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Questions?
+    \end{center}
+\end{frame}
+
+\end{document}
