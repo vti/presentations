@@ -1,0 +1,350 @@
+\documentclass[14pt]{beamer}
+\usepackage{listings}
+\begin{document}
+\title{Working with WebSockets in Perl}
+\author{Viacheslav Tykhanovskyi (vti)}
+\date{\today}
+\setbeamercolor{background canvas}{bg=black,fg=white} 
+%\setbeamercolor{normal text}{bg=blue} 
+\setbeamercolor{frametitle}{fg=white}
+%\setbeamercolor{text}{fg=white}
+%\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{whitetext}{fg=white}
+\usebeamercolor[fg]{whitetext}
+
+\lstset{% general command to set parameter(s)
+    basicstyle=\tiny
+}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{ukraine}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    THIS IS NOT IN RUSSIA!!1
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Brazil 2012
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{food}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{bus}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{jesus}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{beer}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{car}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=8cm]{monkey}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Serious stuff
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    HTML5
+
+    First draft in 2008
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    WebSockets
+
+    full duplex and persistent
+
+    tcp connections
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    HTTP/1.1 handshake
+
+    Client -- Frames -- Server
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+var ws = new WebSocket('ws://localhost');
+ws.onmessage = function(e) {
+    var message = e.data;
+    alert('Got new message: ' + message);
+};
+ws.send('Hello, world!');
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    RFC 6455
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Once upon a time...
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Draft 75 (hixie)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Draft 76 (00-hybi)
+
+    Sec- and challenge (proxy fail)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    10-hybi
+
+    New frame!
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+\x00DATA\xff
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \small
+    \begin{lstlisting}
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-------+-+-------------+-------------------------------+
+|F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+|I|S|S|S|  (4)  |A|     (7)     |             (16/63)           |
+|N|V|V|V|       |S|             |   (if payload len==126/127)   |
+| |1|2|3|       |K|             |                               |
++-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+|     Extended payload length continued, if payload len == 127  |
++ - - - - - - - - - - - - - - - +-------------------------------+
+|                               |Masking-key, if MASK set to 1  |
++-------------------------------+-------------------------------+
+| Masking-key (continued)       |          Payload Data         |
++-------------------------------- - - - - - - - - - - - - - - - +
+:                     Payload Data continued ...                :
++ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+|                     Payload Data continued ...                |
++---------------------------------------------------------------+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Sec-WebSocket-Version: 8
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    17-hybi (RFC 6455)
+
+    Sec-WebSocket-Version: 13
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Browsers
+
+    The things start to get serious
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+Draft #75
+---------
+Chrome 5
+Safari 5.0
+Android 2.x
+
+Draft #76
+---------
+Firefox 4b (disabled)
+Safari  5.0.2
+Chrome  6-13
+Opera   10.70 (disabled)
+
+iOS     4.2
+
+Draft #10
+---------
+Firefox 10
+Chrome 14
+
+RFC 6455
+--------
+Chrome 14+
+Firefox 10+
+IE 10
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Special cases
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Firefox 7
+
+    Connection:keep-alive, Upgrade
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    HAProxy
+
+    Read handshake headers
+
+    Write handshake headers
+
+    Read the body part
+
+    Accept the handshake
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Perl implementations
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Mojolicious
+
+    RFC 6455
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Protocol::WebSocket (Dancer, Net::Async::WebSocket, Web::Hippie)
+
+    75, 76 (00), 10, 17, RFC 6455 + browser workarounds
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    WebSocket fallbacks
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Flash
+
+    https://github.com/gimite/web-socket-js
+
+    Requires policy server (843 port or inline)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Socket.IO
+
+    http://socket.io/
+
+    PocketIO --- Perl implementation
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    SockJS
+
+    https://github.com/sockjs/sockjs-client
+
+    SockJS-Perl --- Perl implementation
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Examples
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    1. Protocol::WebSocket console
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    2. Showmethedrawing
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    3. Showmetheshell
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Obrigado!
+    \end{center}
+\end{frame}
+
+\end{document}
