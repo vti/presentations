@@ -1,0 +1,1337 @@
+\documentclass[14pt]{beamer}
+\usepackage{listings}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\begin{document}
+
+\title{Современный Perl}
+\author{Вячеслав Тихановский (vti)}
+\date{2012-11-24}
+\setbeamercolor{background canvas}{bg=black,fg=white} 
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{whitetext}{fg=white}
+\usebeamercolor[fg]{whitetext}
+
+\lstset{commentstyle=\textit}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \begin{center}
+    1. Инфраструктура Perl и краткая история развития языка
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{wall}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        C, sh, awk, sed
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        18 декабря 1987 -- 1.0
+
+        "Если есть задача, которая обычно решается с помощью sed, awk или sh, но
+        превосходит их возможности или должна выполняться быстрее и не хочется
+        писать все на C, то perl, возможно, вам подойдет."
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        1988 -- 2.0: 1.0 + Улучшенные Regexp
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        1989 -- 3.0: 2.0 + Бинарные потоки
+
+        pack/unpack
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        1991 -- 4.0: 3.0 + Документация
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{camel-book}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        17 октября 1994 -- 5.0: Модули
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        26 октября 1995 -- CPAN
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        1997 -- CGI.pm
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        1998 -- "Изолента, которая держит интернет вместе"
+
+        \includegraphics<1>[height=8cm]{duct-tape}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        FormMail
+
+        \includegraphics<1>[height=8cm]{matt}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        2000 -- Perl 6
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{camelia}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        2002 -- Perl 5.8
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Perl мертв?
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        2007 -- Perl 5.10
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{release-history}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        2012 -- Perl 5.16
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Версии: нечетные и четные
+
+        5.12 5.13
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Релизы
+
+        Каждые три месяца в 20-х числах (pumpking)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Perl 5.16 and beyond (Jesse Vincent)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \begin{itemize}
+            \item обратная совместимость
+            \item use v5.14;
+            \item все в модули!
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Как один символ может изменить ваше Perl-резюме?
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        5.17.5 (37 авторов)
+
+        Abhijit Menon-Sen, Andy Dougherty, Aristotle Pagaltzis, Chris 'BinGOs'
+        Williams, Colin Kuskie, Craig A. Berry, Daniel Dragan, David Golden,
+        David Leadbeater, David Mitchell, David Nicol, Dominic Hargreaves,
+        Father Chrysostomos, Florian Ragwitz, H.Merijn Brand, James E Keenan,
+        Jerry D. Hedden, Jesse Luehrs, John Peacock, Karen Etheridge, Karl
+        Williamson, Leon Timmermans, Michael G Schwern, Nicholas Clark, Peter
+        Martini, Rafael Garcia-Suarez, Ricardo Signes, Shawn M Moore, Shlomi
+        Fish, Steffen Müller, Steve Hay, Sullivan Beck, Sébastien
+        Aperghis-Tramoni, Tony Cook, Vincent Pit, Yves Orton.
+
+        AUTHORS (1151)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Perl, perl или PERL?
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Only perl can parse Perl.
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Верблюд или лук?
+
+        \includegraphics<1>[height=4cm]{camel}
+        \includegraphics<1>[height=4cm]{onion}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Философия Perl
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    TIMTOWTDI
+
+    There Is More Than One Way To Do It
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+    Как очистить массив?
+
+    \lstset{language=Perl}
+    \begin{lstlisting}[numbers=left]
+@a = ();
+undef @a;
+splice @a;
+$#a = -1;
+delete @a[0..#$a];
+shift @a while defined shift @a;
+while (shift @a) {}
+    \end{lstlisting}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Мультипарадигменность
+
+    Процедурный Функциональный Объектно-ориентированный Аспектно-ориентированный
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    DWIM
+
+    Do What I Mean
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Три добродетели программиста:
+
+    лень, нетерпение и высокомерие
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Доступность и открытость
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Artistic и GPL
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Более 100 платформ
+
+        Acorn AIX Amiga Apollo Apple Atari AtheOS BeOS BSD BSD/OS Coherent
+        Compaq Concurrent Cygwin Darwin DEC OSF/1 DG/UX Digital Digital UNIX
+        DJGPP DOS Domain/OS DragonFlyBSD DYNIX/ptx Embedix EMC EPOC FreeBSD
+        Fujitsu GNU Darwin Guardian HP HP-UX IBM IRIX Japanese JPerl Linux
+        LynxOS Macintosh Mac OS X Mac OS MinGW Minix MiNT MorphOS MPE/iX MS-DOS
+        / MVS NetBSD NetWare NextStep NonStop NonStop-UX Novell OpenBSD OpenVMS
+        OS/2 OS/390 OS/400 OSF/1 Plan 9 Pocket PC PowerMAX Psion QNX Reliant UNIX
+        RISCOS Sequent SGI Sharp Siemens SINIX Solaris Stratus Sun Syllable Symbian
+        Tandem Tivo Tru64 UNIX ...
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Сборки для Windows
+
+    ActiveState StrawberryPerl Cygwin CitrusPerl DWIMPerl
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Свежая документация
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Perl-документация perldoc.perl.org
+
+        Perl-уроки perl-tutorial.org, perltuts.com
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Свежие книги
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{books}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{beginning_perl}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{intermediate_perl}
+
+        2 издание
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{programming_perl}
+
+        4 издание
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{modern_perl}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{learning_perl}
+
+        6 издание
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{higher_order_perl}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        CPAN
+
+        Comprehensive Perl Archive Network
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        CTAN (\TeX) -> CPAN -> JSAN (JavaScript) -> CCAN (C)
+
+        pypi (Python)
+        Gems (Ruby)
+        npm (NodeJS)
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        CPAN-статистика
+
+        > 115k модулей
+
+        > 26k дистрибутивов
+
+        > 10k авторов
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Поиск по CPAN
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{cpan}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{metacpan}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        API
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        perlresume.org
+
+        \includegraphics<1>[height=8cm]{perlresume}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        perlybook.org
+
+        \includegraphics<1>[height=8cm]{perlybook}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        mapofcpan.org
+
+        \includegraphics<1>[height=8cm]{mapofcpan}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Тестирование CPAN -- CPANTS
+
+        \includegraphics<1>[height=8cm]{cpants}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        CPAN рейтинг
+
+        \includegraphics<1>[height=8cm]{cpanratings}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        CPAN баги
+
+        \includegraphics<1>[height=8cm]{rt}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Вопросы?
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    2. Современные Best Practices
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Современная сборка Perl
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+        \lstset{language=Bash}
+        \begin{lstlisting}
+perlbrew install 5.14.0
+perlbrew install perl-5.8.1
+perlbrew install perl-5.13.6
+
+perlbrew use perl-5.13.6
+        \end{lstlisting}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Современная установка модулей
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \begin{itemize}
+            \item cpan
+            \item cpanp
+            \item \textbf{cpanm} (local::lib)
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Развертывание
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+carton
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Bash}
+    \begin{lstlisting}
+> cat Makefile.PL
+use inc::Module::Install;
+name 'MyApp';
+version '1.0';
+
+requires 'Plack', 0.9980;
+requires 'Starman', 0.2000;
+
+WriteAll;
+
+> carton install
+> git add Makefile.PL carton.lock
+> git commit -m "add Plack and Starman"
+
+> carton install
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Best Practices
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{best_practices}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    use strict;
+    use warnings;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    use ModernPerl;
+    # or
+    use common::sense;
+    # or
+    ...
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    open FH, ">$filename";
+    open FH, '>', $filename;
+
+    open my $fh, '>', $filename;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    new CGI;
+
+    CGI->new;
+    Plack::Request->new;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    use v5.xx.xx*;
+    \end{lstlisting}
+
+    * .xx.xx > 8.8!!!
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Секретные операторы (https://github.com/book/perlsecret/)
+    \newline
+
+    $0+$,
+    $@{[ ]}$,
+    $!!$,
+    $\}\{$,
+    $~-$,
+    $-~$,
+    $-+-$,
+    $=( )=$,
+    $=< >=~$,
+    $~~<>$,
+    $<<m=~m>> m;$,
+    $-=!   -=!!$,
+    $+=!   +=!!$,
+    $x=!   x=!!$,
+    $*=!   *=!!$,
+    $,=>$,
+    $()x!!$
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    say
+    \lstset{language=Perl}
+    \begin{lstlisting}
+        print "Hi\n"
+
+        say "Hi"
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    //
+    \lstset{language=Perl}
+    \begin{lstlisting}
+        $foo ||= $bar;
+
+        $foo = $bar unless defined $foo;
+        $foo //= $bar;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    state
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    my $counter = 0;
+    sub inc { $counter++ }
+
+    sub inc {
+        state $counter = 0;
+        $counter++
+    }
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    push/pop, shift/unshift
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    push $array_ref, 'bar';
+    unshift $array
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    ~~
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    $foo ~~ undef
+    $foo ~~ @array
+    $foo ~~ %hash
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    $phone =~ m/^(.*)\./;
+    print $1
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    my $PREFIX = qr/^(d+)\./;
+    my $NUMBER = qr/\s*\(\d+)\)\s*(d+)$/;
+    ...
+    $phone =~ m/$PREFIX$NUMBER/;
+    print $1;
+    print $2;
+    print $3;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    $\$+{name}$
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    my $PREFIX = qr/^(?<prefix>d+)\./;
+    my $NUMBER = qr/\s*\(?<area>\d+)\)\s*(?<number>d+)$/;
+    ...
+    $phone =~ m/$PREFIX$NUMBER/;
+    print $+{prefix};
+    print $+{area};
+    print $+{number};
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    Regexp::Common
+    \lstset{language=Perl}
+    \begin{lstlisting}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{basicstyle=\tiny,language=Perl}
+    \begin{lstlisting}
+(?:(?:\r\n)?[ \t])*(?:(?:(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t]
+)+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:
+\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(
+?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ 
+\t]))*"(?:(?:\r\n)?[ \t])*))*@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\0
+31]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\
+](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+
+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:
+(?:\r\n)?[ \t])*))*|(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z
+|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)
+?[ \t])*)*\<(?:(?:\r\n)?[ \t])*(?:@(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\
+r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[
+ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)
+?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t]
+)*))*(?:,@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[
+ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*
+)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t]
+)+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*)
+*:(?:(?:\r\n)?[ \t])*)?(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+
+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r
+\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:
+\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t
+]))*"(?:(?:\r\n)?[ \t])*))*@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031
+]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](
+?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?
+:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?
+:\r\n)?[ \t])*))*\>(?:(?:\r\n)?[ \t])*)|(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?
+:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?
+[ \t]))*"(?:(?:\r\n)?[ \t])*)*:(?:(?:\r\n)?[ \t])*(?:(?:(?:[^()<>@,;:\\".\[\] 
+\000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|
+\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>
+@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"
+(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*))*@(?:(?:\r\n)?[ \t]
+)*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\
+".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?
+:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[
+\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*|(?:[^()<>@,;:\\".\[\] \000-
+\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(
+?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*)*\<(?:(?:\r\n)?[ \t])*(?:@(?:[^()<>@,;
+:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([
+^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\"
+.\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\
+]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*(?:,@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\
+[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\
+r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] 
+\000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]
+|\\.)*\](?:(?:\r\n)?[ \t])*))*)*:(?:(?:\r\n)?[ \t])*)?(?:[^()<>@,;:\\".\[\] \0
+00-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\
+.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,
+;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?
+:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*))*@(?:(?:\r\n)?[ \t])*
+(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".
+\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[
+^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]
+]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*\>(?:(?:\r\n)?[ \t])*)(?:,\s*(
+?:(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\
+".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*)(?:\.(?:(
+?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[
+\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t
+])*))*@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t
+])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?
+:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|
+\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*|(?:
+[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\
+]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*)*\<(?:(?:\r\n)
+?[ \t])*(?:@(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["
+()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)
+?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>
+@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*(?:,@(?:(?:\r\n)?[
+ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,
+;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t]
+)*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\
+".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*)*:(?:(?:\r\n)?[ \t])*)?
+(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".
+\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])*)(?:\.(?:(?:
+\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\[
+"()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:\r\n)?[ \t])
+*))*@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])
++|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*)(?:\
+.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t])+|\Z
+|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\](?:(?:\r\n)?[ \t])*))*\>(?:(
+?:\r\n)?[ \t])*))*)?;\s*)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        SQL
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        DBIx::Class, Rose::DB::Object, ObjectDB
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        ООП
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Moose, Moos, Moo, Mo, M
+
+        Mouse, Mousse
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+package Foo;
+use Moose;
+
+has 'name' => (
+    isa      => 'Str',
+    required => 1
+);
+
+package main;
+
+my $foo = Foo->new(name => 'bar');
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Method::Signatures
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+package Foo;
+use Method::Signatures;
+
+method get($key) {
+    return $self->{$key}
+}
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Веб-программирование
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        CGI, FCGI, mod\_perl
+
+        PSGI/Plack
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+sub {
+    my $env = shift;
+
+    return [200,
+        ['Content-Type' => 'text/plain'],
+        ['Hello world!']
+    ]
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+HTTP::Server::PSGI, HTTP::Server::Simple::PSGI, Starman, Twiggy, Corona,
+Feersum, Starlet, FCGI::EV, AnyEvent::FCGI, Danga::Socket, AnyEvent::HTTPD,
+SCGI, AnyEvent::SCGI, POE, ReverseHTTP, uWSGI, mod\_psgi, evpsgi, Perlbal, nginx
+embedded perl
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+Catalyst, Jifty, CGI::Application, HTTP::Engine, Dancer, Mason, Squatting,
+Continuity, Maypole, Tatsumaki, Mojolicious, Web::Simple, Angelos, Ark,
+Schenker, Noe, Kamui and WebNano
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Template::Toolkit
+
+        Sass, Haml, Mustache
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    HTML5, WebSockets
+
+    Protocol::WebSocket, PocketIO, SockJS
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Тестирование и профилирование
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Test::*
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+        Test::Builder, Test::Unit...
+
+        Test::Pod, Test::NoWarnings, Test::TCP...
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+        TDD/BDD
+
+        Test::Class, Test::BDD::*
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{basicstyle=\tiny,language=Perl}
+    \begin{lstlisting}
+use Test::Ika;
+use Test::Expects;
+
+describe 'MessageFilter' => sub {
+    my $filter;
+
+    before_each {
+        $filter = MessageFilter->new();
+    };
+
+    it 'should detect message with NG word' => sub {
+        my $filter = MessageFilter->new('foo');
+        expect($filter->detect('hello foo'))->ok;
+    };
+    it 'should detect message with NG word' => sub {
+        my $filter = MessageFilter->new('foo');
+        expect($filter->detect('hello foo'))->ok;
+    };
+};
+
+runtests;
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+        Devel::Cover
+
+        cover -test
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{cover}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \lstset{language=Perl}
+    \begin{lstlisting}
+Devel::NYTProf
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{nytprof1}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{nytprof2}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{nytprof3}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+        write-only
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+        perltidy
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+    \lstset{basicstyle=\tiny,language=Perl}
+    \begin{lstlisting}[numbers=left]
+sub new { my $class = shift; my $self = {captures => [],
+constraints => {}, @_}; bless $self, $class; if (my
+$methods = $self->{method}) { $methods = [$methods]
+unless ref $methods eq 'ARRAY'; $methods = [map {uc}
+@$methods]; $self->{method} = $methods; }
+$self->_prepare_pattern; return $self; }
+    \end{lstlisting}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+    \lstset{basicstyle=\tiny,language=Perl}
+    \begin{lstlisting}[numbers=left]
+sub new {
+    my $class = shift;
+    my $self = { captures => [], constraints => {}, @_ };
+    bless $self, $class;
+    if ( my $methods = $self->{method} ) {
+        $methods = [$methods] unless ref $methods eq 'ARRAY';
+        $methods = [ map { uc } @$methods ];
+        $self->{method} = $methods;
+    }
+    $self->_prepare_pattern;
+    return $self;
+}
+    \end{lstlisting}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{center}
+        Perl::Critic
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{perlcritic}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Вопросы?
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        3. Perl-сообщество
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        PM-группы -- Perl Mongers (Perl-дилеры)
+
+        \includegraphics<1>[height=4cm]{pm}
+
+        pm.org
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=4cm]{pm-ukraine}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        PM-встречи
+
+        \includegraphics<1>[height=4cm]{pm-meeting1}
+        \includegraphics<1>[height=4cm]{pm-meeting2}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Конференции
+
+        \includegraphics<1>[height=4cm]{yapc-pic}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        YAPC::Asia
+        YAPC::Brazil
+        YAPC::Europe
+        YAPC::NA
+        YAPC::Russia
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        YAPC::Europe
+
+        \includegraphics<1>[height=4cm]{map}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        YAPC::Europe
+
+        \includegraphics<1>[height=4cm]{yapc}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    \includegraphics<1>[height=4cm]{larry-wall}
+    \includegraphics<1>[height=4cm]{damian-conway}
+    \includegraphics<1>[height=4cm]{matt-s-trout}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Воркшопы
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{workshop.jpg}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Saint Perl
+
+        22 декабря 2012
+
+        Санкт-Петербург
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Хакатоны
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{blackperl-hackathon}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Ski Hackathon
+
+        16-20 января 2013
+
+        Карпаты
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Веб-сайты
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        perl.org
+
+        \includegraphics<1>[height=8cm]{perl-org}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        blogs.perl.org
+
+        \includegraphics<1>[height=8cm]{blogs-perl-org}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        perlmonks.com
+
+        \includegraphics<1>[height=8cm]{perlmonks}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Агрегаторы
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{perlsphere}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{perlbuzz}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{perlweekly}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{planetperl}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        IRC
+
+        irc.perl.org -- \#ru.pm!
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Организации
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        The Perl Foundation
+
+        \includegraphics<1>[height=4cm]{tpf}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Enlightened Perl Organization
+
+        \includegraphics<1>[height=4cm]{epo}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        YAPC Europe Foundation
+
+        \includegraphics<1>[height=4cm]{yuf}
+    \end{center}
+\end{frame}
+
+\end{document}
