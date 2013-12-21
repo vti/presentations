@@ -1,0 +1,332 @@
+\documentclass[14pt]{beamer}
+\usepackage{listings}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\begin{document}
+
+\title{Design by Contract в Perl}
+\author{Вячеслав Тихановский (vti)}
+\date{2012-12-22}
+\setbeamercolor{background canvas}{bg=black,fg=white}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{whitetext}{fg=white}
+\usebeamercolor[fg]{whitetext}
+
+\lstset{commentstyle=\textit}
+\lstset{basicstyle=\small,language=Perl}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \begin{center}
+        showmetheco.de
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        ООП
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Moose, Moos, Moo, Mo, M?
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Интерфейсы и наследование от абстрактного класса
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+package AbstractRenderer;
+
+sub new {...}
+
+sub render { die 'Implement me!' }
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+package TT;
+use base 'AbstractRenderer';
+sub render {
+    my $self = shift;
+    my ($template, $layout, %vars) = @_;
+
+    return \$rendered;
+}
+
+package Caml;
+use base 'AbstractRenderer';
+sub render {
+    my $self = shift;
+    my ($template, %vars) = @_;
+
+    return $rendered;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Design by Contract
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \begin{itemize}
+            \item Проверка входных и выходных условий
+            \pause
+            \item Следование принципу подстановки Лисков (L в SOLID) при
+                наследовании
+            \pause
+            \item Документирование интерфейса
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+package AbstractRenderer;
+sub new {...}
+
+# Requires(STRING, %HASH_OF_ANY_VALUES)
+# Ensures(STRING)
+# Throws(Exception::TemplateNotFound)
+sub render {
+    my $self = shift;
+    my ($template, %vars) = @_;
+
+    ...
+
+    return $rendered;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+package TT;
+use base 'AbstractRenderer';
+sub render { ... }
+
+package Caml;
+use base 'AbstractRenderer';
+sub render { ... }
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \begin{itemize}
+            \item Не должно снижать читаемость
+            \pause
+            \item Не требует больших вычислительных ресурсов
+            \pause
+            \item Отключаемо
+            \pause
+            \item Наследуемо
+            \pause
+            \item Запрещает менять контракт в дочерних классах
+            \pause
+            \item Понятные ошибки
+            \pause
+            \item Как можно меньше магии*
+            \pause
+            \item Похоже на Perl*
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Class::Contract
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+use Class::Contract;
+
+contract {
+  inherits 'BaseClass';
+
+  ctor 'new';
+
+  method 'methodname';
+    pre  { ... };
+      failmsg 'Error message';
+
+    post  { ... };
+      failmsg 'Error message';
+
+    impl { ... };
+};
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Sub::Contract
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+use Sub::Contract qw(contract);
+
+contract('surface')
+    ->in(\&is_integer, \&is_integer)
+    ->out(\&is_integer)
+    ->enable;
+
+sub surface {
+    # no need to validate arguments anymore!
+    # just implement the logic:
+    return $_[0] * $_[1];
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Sub::Assert
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+assert
+    pre     => {
+     'parameter larger than one' => '$PARAM[0] >= 1',
+    },
+    post    => '$VOID or $RETURN <= $PARAM[0]',
+    sub     => 'squareroot',
+    context => 'novoid',
+    action  => 'carp';
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Carp::Datum
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+use Carp::Datum;
+
+sub routine {
+    DFEATURE my $f_, "optional message";
+    my ($a, $b) = @_;
+    DREQUIRE $a > $b, "a > b";
+    $a += 1; $b += 1;
+    DASSERT $a > $b, "ordering a > b preserved";
+    my $result = $b - $a;
+    DENSURE $result < 0;
+    return DVAL $result;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        MooseX::Contract
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+    contract 'add'
+        => accepts [ ...type... ]
+        => returns void,
+        with_context(
+            pre => sub {
+                ...
+            },
+            post => assert {
+                ...
+            }
+        );
+    sub add {
+        my $self = shift;
+        my $incr = shift;
+        $self->{value} += $incr;
+        return;
+    }
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Attribute::Contract
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+package AbstractRenderer;
+use Attribute::Contract;
+
+sub new {...}
+
+sub render
+  :ContractRequires(VALUE(Str), %ANY)
+  :ContractEnsures(VALUE(Str))
+  :ContractThrows(Exception::TemplateNotFound) {
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        DbC и TDD
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        DbC и Defensive programming
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Когда применять?
+
+        \begin{itemize}
+            \item Библиотеки, модули
+            \item Интерфейсы
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Как не применять?
+
+        \begin{itemize}
+            \item Не валидировать данные
+            \item Не производить побочных эффектов
+        \end{itemize}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Спасибо!
+    \end{center}
+\end{frame}
+
+\end{document}
