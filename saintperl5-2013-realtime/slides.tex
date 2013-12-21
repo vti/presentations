@@ -1,0 +1,210 @@
+\documentclass[14pt]{beamer}
+\usepackage{listings}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\begin{document}
+
+\title{RealTime-приложения в Perl}
+\author{Вячеслав Тихановский (vti)}
+\date{2013-12-21}
+\setbeamercolor{background canvas}{bg=black,fg=white}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{normal text}{bg=black}
+\setbeamercolor{whitetext}{fg=white}
+\usebeamercolor[fg]{whitetext}
+
+\lstset{commentstyle=\textit}
+\lstset{basicstyle=\small,language=Perl}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \begin{center}
+        real-time web
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Client -> Server
+
+        Client <- Server
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Client <-> Server
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        HTML5 WebSocket\\
+        HTML5 EventSource\\
+        Flash\\
+        BOSH\\
+        Comet
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        HTML5 WebSocket
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{verbatim}
+var ws = new WebSocket('ws://localhost');
+ws.onmessage = function(e) {
+    var message = e.data;
+    alert('Got new message: ' + message);
+};
+ws.send('Hello, world!');
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Protocol::WebSocket + PSGI (psgix.io)\\
+        Net::WebSocket::Server\\
+        Net::Async::WebSocket\\
+        Dancer::Plugin::WebSocket\\
+        Mojolicious
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Разные версии WebSocket
+
+        RFC 6455\\
+        draft-ietf-hybi-17 (latest)\\
+        draft-ietf-hybi-10\\
+        draft-ietf-hybi-00 (with HAProxy support)\\
+        draft-hixie-75
+    \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{lstlisting}
+Draft #75
+---------
+Chrome 5
+Safari 5.0
+Android 2.x
+
+Draft #76
+---------
+Firefox 4b (disabled)
+Safari  5.0.2
+Chrome  6-13
+Opera   10.70 (disabled)
+iOS     4.2
+
+Draft #10
+---------
+Firefox 10
+Chrome 14
+
+RFC 6455
+--------
+Chrome 14+
+Firefox 10+
+IE 10
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Проблемы с прокси-серверами
+
+        REQ HEADERS <-> RES HEADERS \\
+        REQ BODY    <-> OK
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Protocol::WebSocket rocks!
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Когда нет WebSocket
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Flash
+
+    https://github.com/gimite/web-socket-js
+
+    Требуется policy server (843 port or inline)
+
+    Fliggy
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Socket.IO
+
+    http://socket.io/
+
+    PocketIO
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    SockJS
+
+    https://github.com/sockjs/sockjs-client
+
+    SockJS-Perl
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    Пример
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    showmetheshell
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+    showmetheco.de:5000
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \includegraphics<1>[height=8cm]{osm}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        @vtivti
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        Q\&A
+    \end{center}
+\end{frame}
+
+\end{document}
