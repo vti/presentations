@@ -7,7 +7,6 @@
 *.nav.make
 *.out
 *.out.make
-*.pdf
 *.pdf.1st.make
 *.snm
 *.temp
