@@ -1,0 +1,16 @@
+*.aux
+*.d
+*.fls
+*.log
+*.make
+*.nav
+*.nav.make
+*.out
+*.out.make
+*.pdf
+*.pdf.1st.make
+*.snm
+*.temp
+*.toc
+*.toc.make
+*.vrb
